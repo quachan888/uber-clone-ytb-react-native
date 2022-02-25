@@ -13,6 +13,7 @@ export default function App() {
     return (
         <Provider store={store}>
             <NavigationContainer>
+                {/* <Text>{GOOGLE_MAPS_APIKEY}</Text> */}
                 <SafeAreaProvider>
                     <Stack.Navigator>
                         <Stack.Screen
