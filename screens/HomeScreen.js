@@ -9,7 +9,8 @@ import { setDestination, setOrigin } from '../slices/navSlice';
 
 const HomeScreen = () => {
     const dispatch = useDispatch();
-
+    console.log('===========================');
+    console.log(GOOGLE_MAPS_APIKEY);
     return (
         <SafeAreaView style={tw`bg-white h-full`}>
             <View style={tw`p-5`}>
@@ -32,7 +33,7 @@ const HomeScreen = () => {
                             fontSize: 16
                         }
                     }}
-                    placeholder="Where to go?"
+                    placeholder="Where from?"
                     returnKeyType={'search'}
                     minLength={2}
                     fetchDetails={true}
