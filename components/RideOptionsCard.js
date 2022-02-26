@@ -35,10 +35,12 @@ const data = [
     }
 ];
 
+const SURGE_CHARGE_RATE = 1.5;
+
 const RideOptionsCard = () => {
     const navigation = useNavigation();
     const [selected, setSelected] = useState(null);
-    const setTravelTimeInfomation = useSelector(selecttravelTimeInformation);
+    const travelTimeInfomation = useSelector(selecttravelTimeInformation);
 
     return (
         <SafeAreaView style={tailwind`bg-white flex-grow`}>
@@ -50,7 +52,7 @@ const RideOptionsCard = () => {
                     <Icon name="chevron-left" type="font-awesome" />
                 </TouchableOpacity>
                 <Text style={tailwind`text-center py-5 text-xl`}>
-                    Select a Ride - {setTravelTimeInfomation?.distance.text}
+                    Select a Ride - {travelTimeInfomation?.distance.text}
                 </Text>
             </View>
 
@@ -60,7 +62,7 @@ const RideOptionsCard = () => {
                 renderItem={({ item: { id, title, multiplier, image }, item }) => (
                     <TouchableOpacity
                         onPress={() => setSelected(item)}
-                        style={tailwind`flex-row items-center justify-between px-10 ${
+                        style={tailwind`flex-row items-center justify-between px-5 ${
                             id === selected?.id && `bg-gray-200`
                         }`}
                     >
@@ -74,13 +76,23 @@ const RideOptionsCard = () => {
                         />
                         <View style={tailwind`-ml-6`}>
                             <Text style={tailwind`text-xl font-semibold`}>{title}</Text>
-                            <Text>{setTravelTimeInfomation?.duration.text} travel time</Text>
+                            <Text>{travelTimeInfomation?.duration.text} travel time</Text>
                         </View>
-                        <Text style={tailwind`text-xl`}>$99</Text>
+                        <Text style={tailwind`text-xl`}>
+                            {new Intl.NumberFormat('en-us', {
+                                style: 'currency',
+                                currency: 'USD'
+                            }).format(
+                                (travelTimeInfomation?.duration.value *
+                                    SURGE_CHARGE_RATE *
+                                    multiplier) /
+                                    100
+                            )}
+                        </Text>
                     </TouchableOpacity>
                 )}
             />
-            <View>
+            <View style={tailwind`mt-auto border-t border-gray-200`}>
                 <TouchableOpacity
                     style={tailwind`bg-black py-3 m-3 ${!selected && 'bg-gray-300'} `}
                     disabled={!selected}
